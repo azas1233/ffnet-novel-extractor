@@ -38,8 +38,8 @@ Edge / Chrome 浏览器扩展（Manifest V3），适用于 Windows / macOS / Lin
 
 打包产物输出到 `ysb/` 目录：
 - `加载这个文件夹/` —— Edge 加载解压缩时选它（核心）
-- `备用文件/小说提取器-v1.0.6.zip` —— 压缩包备份
-- `备用文件/小说提取器-v1.0.6.crx` —— 双击安装包（Edge 需额外策略，不推荐）
+- `备用文件/小说提取器-v1.0.0.zip` —— 压缩包备份
+- `备用文件/小说提取器-v1.0.0.crx` —— 双击安装包（Edge 需额外策略，不推荐）
 - `备用文件/ffnet-extractor.pem` —— 签名私钥，**重打包必须保留，别删**
 - `安装说明.txt` —— 给最终用户看的说明
 
@@ -89,8 +89,8 @@ ffnet-novel-extractor/
 │   └── popup/
 │       └── popup.html / .css / .js     # 工具栏弹窗
 ├── release/
-│   ├── 小说提取器-v1.0.6.zip    # 完整打包
-│   └── 小说提取器-v1.0.6.crx    # 签名包
+│   ├── 小说提取器-v1.0.0.zip    # 完整打包
+│   └── 小说提取器-v1.0.0.crx    # 签名包
 └── test/
     ├── crxid.js / crxid2.js / crxid-dump.js  # 扩展 ID 工具
     ├── epub-check.js           # EPUB 校验
@@ -113,7 +113,7 @@ ffnet-novel-extractor/
 
 ## 版本历史
 
-### v1.0.6
+### v1.0.0 (初始发布)
 
 - ✅ 修复「提取开始后无法停止」问题
 - ✅ 修复「提取完了也没有 txt 文件」问题
@@ -123,15 +123,8 @@ ffnet-novel-extractor/
   - 收到章节后立即推进 `currentIndex`
 - ✅ TXT 改用 base64 data URL 下载，避免超长内容截断
 - ✅ `parser.js` `meta.chapters` 兜底（chap_select 优先）
-
-### v1.0.5
-
-- 极简 UI 重做：底部胶囊 + 展开面板
-- 状态机 v3 重写
-
-### v1.0.0
-
-- 首个可用版本
+- ✅ 极简 UI 重做：底部胶囊 + 展开面板
+- ✅ 状态机 v3 重写
 
 ---
 
