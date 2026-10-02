@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>FF.net 小说提取器</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header class="header">
+    <h1>FF.net 小说提取器</h1>
+    <span id="status-dot" class="dot idle"></span>
+  </header>
+
+  <section id="current-story" class="card hidden">
+    <div class="story-line" id="story-title"></div>
+    <div class="story-meta" id="story-author"></div>
+    <div class="story-meta" id="story-summary"></div>
+  </section>
+
+  <section class="card">
+    <label class="field">
+      <span>小说页面 URL</span>
+      <input type="url" id="url-input" placeholder="https://www.fanfiction.net/s/123456/">
+    </label>
+
+    <div class="format-row">
+      <span class="format-label">导出格式</span>
+      <label class="checkbox"><input type="checkbox" id="fmt-txt" checked> TXT</label>
+      <label class="checkbox"><input type="checkbox" id="fmt-epub" checked> EPUB</label>
+    </div>
+
+    <div class="btn-row">
+      <button id="btn-start" class="primary">开始提取</button>
+      <button id="btn-pause" class="hidden">暂停</button>
+      <button id="btn-resume" class="hidden">继续</button>
+      <button id="btn-reset" class="ghost">重置</button>
+    </div>
+  </section>
+
+  <section id="progress-section" class="card hidden">
+    <div class="progress-bar"><div id="progress-fill" class="fill"></div></div>
+    <div id="progress-text" class="progress-text"></div>
+    <div id="log" class="log"></div>
+  </section>
+
+  <script src="popup.js"></script>
+</body>
+</html>
