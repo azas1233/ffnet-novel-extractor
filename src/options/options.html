@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<title>FF.net 小说提取器 · 设置</title>
+<link rel="stylesheet" href="options.css" />
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="brand-ico"></div>
+      <div>
+        <div class="brand-title">FF.net 小说提取器</div>
+        <div class="brand-sub">v0.1.0</div>
+      </div>
+    </div>
+    <div class="top-actions">
+      <button class="btn ghost" id="btn-export-config">导出设置</button>
+      <button class="btn ghost" id="btn-import-config">导入设置</button>
+      <input type="file" id="import-file" accept="application/json" hidden />
+      <button class="btn danger-ghost" id="btn-reset">恢复默认</button>
+    </div>
+  </div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar">
+    <div class="side-title">菜单</div>
+    <nav class="side-nav">
+      <a href="#download" class="side-item active" data-hash="download">下载任务设置</a>
+      <a href="#manager"  class="side-item" data-hash="manager">下载管理器</a>
+      <a href="#history"  class="side-item" data-hash="history">历史记录</a>
+      <a href="#crawl"    class="side-item" data-hash="crawl">抓取策略</a>
+      <a href="#output"   class="side-item" data-hash="output">输出格式</a>
+      <a href="#ui"       class="side-item" data-hash="ui">界面与行为</a>
+      <a href="#about"    class="side-item" data-hash="about">关于</a>
+    </nav>
+  </aside>
+
+  <main class="main">
+
+    <!-- ========== 下载任务设置 ========== -->
+    <section id="sec-download" class="sec">
+      <h1>下载任务设置</h1>
+      <div class="accordion">
+        <details open class="card" data-card="global">
+          <summary>全局</summary>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-label">
+                <div class="row-title">输出格式</div>
+                <div class="row-desc">至少勾选一个，TXT 体积最小，EPUB 自带封面和目录</div>
+              </div>
+              <div class="col-input formats-row">
+                <label class="format-pill"><input type="checkbox" id="f-f-txt" /><span>TXT</span></label>
+                <label class="format-pill"><input type="checkbox" id="f-f-epub" /><span>EPUB</span></label>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-label">
+                <div class="row-title">文件命名模板</div>
+                <div class="row-desc">支持占位符：<code>{title}</code> <code>{author}</code> <code>{storyId}</code> <code>{chapters}</code></div>
+              </div>
+              <div class="col-input">
+                <input type="text" id="f-filenameTemplate" spellcheck="false" />
+                <div class="hint">例子：<code>[{author}] {title}</code> 会变成 <code>[奉奉奉] 保無樂道八夢 (Homura-chan).txt</code></div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-label">
+                <div class="row-title">下载子目录</div>
+                <div class="row-desc">留空为浏览器默认下载目录；填 "FFnet\\novels" 会保存到 <code>下载/FFnet/novels</code></div>
+              </div>
+              <div class="col-input">
+                <input type="text" id="f-downloadSubdir" placeholder="例如 FFnet\novels" spellcheck="false" />
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-label">
+                <div class="row-title">文件名冲突处理</div>
+                <div class="row-desc">下载时若同名文件已存在该怎么办</div>
+              </div>
+              <div class="col-input">
+                <select id="f-conflictAction">
+                  <option value="uniquify">自动重命名（推荐）</option>
+                  <option value="overwrite">覆盖</option>
+                  <option value="prompt">每次询问</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-label">
+                <div class="row-title">下载前弹窗确认保存位置</div>
+                <div class="row-desc">开启后每次提取都会弹出系统保存对话框</div>
+              </div>
+              <div class="col-input"><label class="switch"><input type="checkbox" id="f-saveAs" /><span class="slider"></span></label></div>
+            </div>
+          </div>
+        </details>
+
+        <details open class="card" data-card="ffnet-novel">
+          <summary>FF.net 小说</summary>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-label">
+                <div class="row-title">抓取范围</div>
+                <div class="row-desc">默认整本提取；如果只想提取一部分章节，可指定起止</div>
+              </div>
+              <div class="col-input">
+                <label class="switch inline"><input type="checkbox" id="f-chapterRangeEnabled" /><span class="slider"></span></label>
+                <div class="range-box">
+                  <label>第 <input type="number" id="f-startChapter" min="1" step="1" /> 章</label>
+                  <label>到 <input type="number" id="f-endChapter" min="1" step="1" /> 章（留空=最后一章）</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- ========== 下载管理器 ========== -->
+    <section id="sec-manager" class="sec">
+      <h1>下载管理器</h1>
+      <div class="card plain">
+        <div class="card-body">
+          <div class="manager-head">
+            <div id="mgr-status">加载中…</div>
+            <div class="spacer"></div>
+            <button class="btn ghost" id="btn-clear-finished">清除已完成</button>
+            <button class="btn ghost" id="btn-clear-all">清空记录</button>
+          </div>
+          <div id="mgr-list" class="manager-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 历史记录 ========== -->
+    <section id="sec-history" class="sec">
+      <h1>历史记录</h1>
+      <div class="card plain">
+        <div class="card-body">
+          <div class="manager-head">
+            <div>已提取的小说（本地记录，不会上传）</div>
+            <div class="spacer"></div>
+            <button class="btn ghost" id="btn-clear-history">清空历史</button>
+          </div>
+          <div id="history-list" class="history-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 抓取策略 ========== -->
+    <section id="sec-crawl" class="sec">
+      <h1>抓取策略</h1>
+      <div class="accordion">
+        <details open class="card">
+          <summary>章节访问间隔</summary>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-label">
+                <div class="row-title">最短间隔（毫秒）</div>
+                <div class="row-desc">每抓完一章至少等这么久再下一章，建议 ≥ 1500</div>
+              </div>
+              <div class="col-input"><input type="number" id="f-delayMsMin" min="0" step="100" /></div>
+            </div>
+            <div class="row">
+              <div class="col-label">
+                <div class="row-title">最长间隔（毫秒）</div>
+                <div class="row-desc">随机延时的上限，建议 ≥ 最短间隔</div>
+              </div>
+              <div class="col-input"><input type="number" id="f-delayMsMax" min="0" step="100" /></div>
+            </div>
+            <div class="row">
+              <div class="col-label">
+                <div class="row-title">单页等待超时</div>
+                <div class="row-desc">某一章页面长时间没响应时触发重试</div>
+              </div>
+              <div class="col-input"><input type="number" id="f-pageTimeoutMs" min="3000" step="1000" /></div>
+            </div>
+            <div class="row">
+              <div class="col-label">
+                <div class="row-title">每章最大重试次数</div>
+                <div class="row-desc">超过次数会标记整次任务失败；越大越稳但越慢</div>
+              </div>
+              <div class="col-input"><input type="number" id="f-maxAttempts" min="1" step="1" max="20" /></div>
+            </div>
+          </div>
+        </details>
+        <details class="card">
+          <summary>高级</summary>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-label">
+                <div class="row-title">页面被拦时使用 fetch 兜底</div>
+                <div class="row-desc">tab 导航遇到 Cloudflare 时，退化为带 Cookie 直抓章节页</div>
+              </div>
+              <div class="col-input"><label class="switch"><input type="checkbox" id="f-preferFetchFallback" /><span class="slider"></span></label></div>
+            </div>
+            <div class="row">
+              <div class="col-label">
+                <div class="row-title">抓完自动关闭后台抓取标签页</div>
+                <div class="row-desc">关掉可以省一个隐藏 tab；关掉后要续抓会重新开</div>
+              </div>
+              <div class="col-input"><label class="switch"><input type="checkbox" id="f-autoCloseCrawlTab" /><span class="slider"></span></label></div>
+            </div>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- ========== 输出格式 ========== -->
+    <section id="sec-output" class="sec">
+      <h1>输出格式</h1>
+      <div class="accordion">
+        <details open class="card">
+          <summary>TXT</summary>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-label"><div class="row-title">文件头含元信息</div><div class="row-desc">标题、作者、章节数、更新时间</div></div>
+              <div class="col-input"><label class="switch"><input type="checkbox" id="f-txtIncludeMeta" /><span class="slider"></span></label></div>
+            </div>
+            <div class="row">
+              <div class="col-label"><div class="row-title">UTF-8 BOM</div><div class="row-desc">兼容 Windows 记事本/Excel 的换行编码识别</div></div>
+              <div class="col-input"><label class="switch"><input type="checkbox" id="f-txtBom" /><span class="slider"></span></label></div>
+            </div>
+            <div class="row">
+              <div class="col-label"><div class="row-title">章节分隔线</div><div class="row-desc">每章之间的分隔，支持纯文本</div></div>
+              <div class="col-input"><input type="text" id="f-txtChapterSeparator" spellcheck="false" /></div>
+            </div>
+          </div>
+        </details>
+        <details open class="card">
+          <summary>EPUB</summary>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-label"><div class="row-title">生成封面</div><div class="row-desc">使用小说封面图作为封面页</div></div>
+              <div class="col-input"><label class="switch"><input type="checkbox" id="f-epubIncludeCover" /><span class="slider"></span></label></div>
+            </div>
+            <div class="row">
+              <div class="col-label"><div class="row-title">目录 Nav / NCX</div><div class="row-desc">章节跳转用的导航</div></div>
+              <div class="col-input"><label class="switch"><input type="checkbox" id="f-epubIncludeToc" /><span class="slider"></span></label></div>
+            </div>
+            <div class="row">
+              <div class="col-label"><div class="row-title">语言</div><div class="row-desc">写入 dc:language</div></div>
+              <div class="col-input"><input type="text" id="f-epubLanguage" placeholder="en / zh-CN" /></div>
+            </div>
+            <div class="row">
+              <div class="col-label"><div class="row-title">作者写入 dc:creator</div><div class="row-desc">阅读器会把它当作者字段</div></div>
+              <div class="col-input"><label class="switch"><input type="checkbox" id="f-epubAuthorAsCreator" /><span class="slider"></span></label></div>
+            </div>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- ========== 界面与行为 ========== -->
+    <section id="sec-ui" class="sec">
+      <h1>界面与行为</h1>
+      <div class="accordion">
+        <details open class="card">
+          <summary>页面内悬浮按钮</summary>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-label"><div class="row-title">在小说页显示底部胶囊 UI</div><div class="row-desc">关闭后只保留右上角扩展图标和弹出窗口</div></div>
+              <div class="col-input"><label class="switch"><input type="checkbox" id="f-uiInjectEnabled" /><span class="slider"></span></label></div>
+            </div>
+            <div class="row">
+              <div class="col-label"><div class="row-title">点胶囊上的「选项」跳转到设置页</div><div class="row-desc">关闭则在当前页面展开一个简易面板</div></div>
+              <div class="col-input"><label class="switch"><input type="checkbox" id="f-uiOpenOptionsInNewTab" /><span class="slider"></span></label></div>
+            </div>
+          </div>
+        </details>
+      </div>
+    </section>
+
+    <!-- ========== 关于 ========== -->
+    <section id="sec-about" class="sec">
+      <h1>关于</h1>
+      <div class="card plain">
+        <div class="card-body">
+          <p><strong>FF.net 小说提取器</strong> v0.1.0</p>
+          <p>非官方工具，用于把 FanFiction.net 的网页小说提取为本地 TXT / EPUB，方便离线阅读或保存备份。</p>
+          <p>所有抓取均走你本机浏览器，不会经过任何第三方服务器。设置、历史、抓取进度全部保存于本地。</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script src="options.js"></script>
+</body>
+</html>
