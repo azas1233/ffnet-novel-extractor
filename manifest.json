@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "FF.net 小说提取器",
-  "version": "1.0.6",
+  "version": "1.0.0",
   "description": "从 FanFiction.net 提取整本小说导出为 TXT / EPUB，保存到系统「下载」文件夹。",
   "icons": {
     "16": "icons/icon16.png",
