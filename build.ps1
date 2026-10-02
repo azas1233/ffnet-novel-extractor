@@ -1,4 +1,4 @@
-﻿# ============================================================
+# ============================================================
 # FF.net 小说提取器 一键打包脚本
 # 用法：在项目根目录执行  ./build.ps1
 #
@@ -13,7 +13,7 @@
 $ErrorActionPreference = 'Stop'
 $root = Split-Path -Parent $MyInvocation.MyCommand.Path
 $outDir   = Join-Path $root 'ysb'
-$ver      = '1.0.6'
+$ver      = '1.0.0'
 $extName  = '小说提取器'
 $buildDir = Join-Path $outDir 'ffnet-extractor'
 $finalDir = Join-Path $outDir '加载这个文件夹'
