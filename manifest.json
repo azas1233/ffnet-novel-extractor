@@ -1,0 +1,41 @@
+{
+  "manifest_version": 3,
+  "name": "FF.net 小说提取器",
+  "version": "1.0.6",
+  "description": "从 FanFiction.net 提取整本小说导出为 TXT / EPUB，保存到系统「下载」文件夹。",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "permissions": ["storage", "downloads", "tabs", "alarms"],
+  "host_permissions": [
+    "https://www.fanfiction.net/*",
+    "https://m.fanfiction.net/*"
+  ],
+  "background": {
+    "service_worker": "src/background/service-worker.js"
+  },
+  "options_ui": {
+    "page": "src/options/options.html",
+    "open_in_tab": true
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.fanfiction.net/*",
+        "https://m.fanfiction.net/*"
+      ],
+      "css": ["src/content/inject.css"],
+      "js": [
+        "src/lib/parser.js",
+        "src/lib/txt.js",
+        "src/lib/epub.js",
+        "src/lib/jszip.min.js",
+        "src/content/extractor.js",
+        "src/content/inject.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}
